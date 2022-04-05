@@ -1,4 +1,18 @@
 # CSE330
-REPLACE-THIS-TEXT-WITH-YOUR-NAME-STUDENT-ID-AND-GITHUB-USERNAME
+Name: Tung Lun (Tony) Ngok
 
-REPLACE-THIS-TEXT-WITH-YOUR-PARTNERS-NAME-STUDENT-ID-AND-GITHUB-USERNAME
+Student ID: 501203
+
+GitHub Username: tngok-wustl
+
+<br>
+
+Name: Christopher Patrick
+
+Student ID: 488360
+
+GitHub Username: cpatrick321
+
+<br>
+
+
