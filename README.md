@@ -25,4 +25,5 @@ GitHub Username: cpatrick321
 https://piyush-eon.medium.com/user-authentication-in-mern-stack-application-cbca694c7063
 https://github.com/piyush-eon/MERN-auth-tutorial/blob/master/.gitignore
 https://mongoosejs.com/docs/models.html
+https://expressjs.com/en/guide/routing.html
 etc.
