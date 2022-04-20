@@ -24,3 +24,4 @@ GitHub Username: cpatrick321
 **References**
 https://piyush-eon.medium.com/user-authentication-in-mern-stack-application-cbca694c7063
 https://github.com/piyush-eon/MERN-auth-tutorial/blob/master/.gitignore
+etc.

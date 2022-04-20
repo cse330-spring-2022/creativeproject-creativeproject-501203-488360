@@ -2,7 +2,18 @@ const mongoose = require("mongoose");
 import bcrypt from "bcryptjs";
 
 const userSchema = mongoose.Schema({
-    name: {
+    loginID: {
+        type: String,
+        required: true,
+
+        // https://masteringjs.io/tutorials/mongoose/unique
+        unique: true
+    },
+    forename: {
+        type: String,
+        required: true
+    },
+    surname: {
         type: String,
         required: true
     },
@@ -28,5 +39,7 @@ userSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-const User = mongoose.model("User", userSchema);
+// https://www.geeksforgeeks.org/mongoose-mongoose-model-function/
+const User = mongoose.model("users", userSchema); // user 'object' model based on schema
+
 module.exports = User;
