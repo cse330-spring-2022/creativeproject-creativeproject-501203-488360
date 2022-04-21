@@ -17,12 +17,25 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         throw new Error("Not a valid professor");
     }
 
-    const conflict = await Course.findOne({
-        prof,
+    // prevent schedule self-conflict
+    const conflict1 = await Course.findOne({
+        prof: prof,
         sessions,
         $or: [{ startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
-    if (conflict) {
+    if (conflict1) {
+        res.status(409);
+        throw new Error("Fail to create a course: schedule conflict");
+    }
+
+    // no two sessions of a course shall ever overlap (whether by the same professor or not)
+    const conflict2 = await Course.findOne({
+        code,
+        number,
+        sessions,
+        $or: [{ startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
+    });
+    if (conflict2) {
         res.status(409);
         throw new Error("Fail to create a course: schedule conflict");
     }
@@ -47,7 +60,7 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
 
 // professor delete course sessions
 router.post('/deleteCourse', asyncHandler(async (req, res) => {
-    const { prof, sessions, startTime } = req.body;
+    const { prof, code, number, sessions, startTime } = req.body;
     
     // TODO: also need to delete from students' course registration sheets
 
@@ -58,6 +71,8 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
     if (deleteCourse) {
         res.status(201).json({
             prof: prof,
+            code: code,
+            number: number,
             sessions: sessions,
             startTime: startTime
         });

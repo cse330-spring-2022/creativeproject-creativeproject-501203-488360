@@ -17,7 +17,7 @@ const courseSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    sessions: {
+    sessions: { // Mon-Wed or Tue-Thu
         type: String,
         required: true
     },
