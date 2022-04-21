@@ -1,17 +1,16 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const User = require("./userModel"); // import user model
-
 const router = express.Router();
 
 // post request to '/register' route (register new users)
 router.post("/register", asyncHandler(async (req, res) => {
     // Node.js: access request body
-    // posted object has 5 parameters
-    const { loginID, forename, surname, password, isProf } = req.body;
+    // posted object has 3 parameters
+    const { loginName, password, isProf } = req.body;
 
     // a login ID matches: user exists (throw an error)
-    const userExists = await User.findOne({ loginID });
+    const userExists = await User.findOne({ loginName });
     if (userExists) {
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409
         res.status(409); // conflict
@@ -20,7 +19,7 @@ router.post("/register", asyncHandler(async (req, res) => {
     }
 
     // create new user
-    const newUser = await User.create({ loginID, forename, surname, password, isProf });
+    const newUser = await User.create({ loginName, password, isProf });
 
     if (newUser) { // if new User successfully created
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
@@ -28,9 +27,7 @@ router.post("/register", asyncHandler(async (req, res) => {
             // https://mongoosejs.com/docs/guide.html#id
             _id: newUser._id, // secret ID
 
-            loginID: newUser.loginID,
-            forename: newUser.forename,
-            surname: newUser.surname,
+            loginName: newUser.loginName,
             isProf: newUser.isProf
         }); // user created
     } else {
@@ -41,10 +38,10 @@ router.post("/register", asyncHandler(async (req, res) => {
 
 // '/login' route (login registered users)
 router.post('/login', asyncHandler(async (req, res) => {
-    const { loginID, password } = req.body;
+    const { loginName, password } = req.body;
 
     // a login ID matches: user exists (if not, throw an error)
-    const user = await User.findOne({ loginID });
+    const user = await User.findOne({ loginName });
     if (!user) {
         res.status(404);
         throw new Error("User not found");
@@ -54,7 +51,7 @@ router.post('/login', asyncHandler(async (req, res) => {
     if (matchPwd) {
         res.status(200).json({
             _id: user._id,
-            loginID: user.loginID,
+            loginName: user.loginName,
             password: user.password
         });
     } else {
