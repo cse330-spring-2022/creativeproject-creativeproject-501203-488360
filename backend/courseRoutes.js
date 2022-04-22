@@ -52,13 +52,13 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
     if (newCourse) {
         res.status(201).json({
             _id: newCourse._id,
-            prof: newCourse.prof,
-            code: newCourse.code,
-            number: newCourse.number,
-            name: newCourse.name,
-            sessions: newCourse.sessions,
-            startTime: newCourse.startTime,
-            endTime: newCourse.endTime
+            prof: prof,
+            code: code,
+            number: number,
+            name: name,
+            sessions: sessions,
+            startTime: startTime,
+            endTime: startTime+80
         });
     } else {
         res.status(400);

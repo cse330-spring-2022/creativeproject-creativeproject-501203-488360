@@ -50,8 +50,11 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
             student: stud,
             code: code,
             number: number,
+            name: courseExists.name,
+            prof: courseExists.prof,
             sessions: sessions,
-            startTime: startTime
+            startTime: startTime,
+            endTime: startTime+80
         });
     } else {
         res.status(400);
