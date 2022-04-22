@@ -2,6 +2,7 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const { db } = require("./studentCourseModel");
 const StudentCourse = require("./studentCourseModel");
+const { route } = require("./userRoutes");
 const router = express.Router();
 
 // student add course sessions
@@ -92,5 +93,12 @@ router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
         return;
     }
 }));
+
+// get courses added by current student
+router.get('/getCourseByStudent', (req, res) => {
+    const { stud } = req.body;
+    const courses = StudentCourse.find({ student: stud });
+    res.json(courses);
+});
 
 module.exports = router;

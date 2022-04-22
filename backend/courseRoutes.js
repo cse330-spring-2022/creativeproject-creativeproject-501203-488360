@@ -114,4 +114,17 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
     }
 }));
 
+// get complete list of courses (not ordered)
+router.get('/getCourse', (req, res) => {
+    const courses = Course.find();
+    res.json(courses);
+});
+
+// get list of courses add by current (logged-in) professor
+router.get('/getCourseByProf', (req, res) => {
+    const { prof } = req.body;
+    const courses = Course.find({ prof: prof });
+    res.json(courses);
+});
+
 module.exports = router;
