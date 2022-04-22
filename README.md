@@ -16,8 +16,9 @@ GitHub Username: cpatrick321
 <br>
 
 **Before first use**
-1. Open the project root folder (where this README.md file is in) inside a terminal; go to 'frontend' folder and run 'npm install' command.
+1. Open the project root folder (where this README.md file is in) inside a terminal; go to 'frontend' folder and run the command 'npm install'.
 2. Go back to the project root folder and run the command 'npm install express express-async-handler jsonwebtoken mongoose bcryptjs'.
+3. Go to 'backend' folder and run the command 'npm i cors'.
 
 <br>
 
