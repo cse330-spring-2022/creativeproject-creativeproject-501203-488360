@@ -20,37 +20,45 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
     // prevent schedule self-conflict
     const conflict1 = await Course.findOne({
         prof: prof,
-        sessions,
-        $or: [{ startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
+        sessions: sessions,
+        $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
     if (conflict1) {
         res.status(409);
-        throw new Error("Fail to create a course: schedule conflict");
+        throw new Error("Fail to create a course: schedule self-conflict");
     }
 
     // no two sessions of a course shall ever overlap (whether by the same professor or not)
     const conflict2 = await Course.findOne({
-        code,
-        number,
-        sessions,
-        $or: [{ startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
+        code: code,
+        number: number,
+        sessions: sessions,
+        $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
     if (conflict2) {
         res.status(409);
-        throw new Error("Fail to create a course: schedule conflict");
+        throw new Error("Fail to create a course: sessions overlap");
     }
 
-    const newCourse = await Course.create({ prof, code, number, name, sessions, startTime });
+    const newCourse = await Course.create({
+        prof: prof,
+        code: code,
+        number: number,
+        name: name,
+        sessions: sessions,
+        startTime: startTime,
+        endTime: startTime+80 // a course session lasts 80 minutes
+    });
     if (newCourse) {
         res.status(201).json({
             _id: newCourse._id,
-            prof: prof,
-            code: code,
-            number: number,
-            name: name,
-            sessions: sessions,
-            startTime: startTime,
-            endTime: startTime+80 // a course session lasts 80 minutes
+            prof: newCourse.prof,
+            code: newCourse.code,
+            number: newCourse.number,
+            name: newCourse.name,
+            sessions: newCourse.sessions,
+            startTime: newCourse.startTime,
+            endTime: newCourse.endTime
         });
     } else {
         res.status(400);
@@ -62,11 +70,26 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
 router.post('/deleteCourse', asyncHandler(async (req, res) => {
     const { prof, code, number, sessions, startTime } = req.body;
     
-    // TODO: also need to delete from students' course registration sheets
-
+    // First, delete the course session from students' course registration sheets
+    const deleteFromStud = await db.collection("student_courses").deleteMany({
+        code: code,
+        number: number,
+        sessions: sessions,
+        startTime: startTime
+    });
+    if (!deleteFromStud) {
+        res.status(400);
+        throw new Error("Fail to delete course from students");
+    }
 
     // https://www.mongodb.com/docs/mongodb-shell/crud/delete/
-    const deleteCourse = await Course.deleteMany({ prof, sessions, startTime });
+    const deleteCourse = await Course.deleteOne({
+        prof: prof,
+        code: code,
+        number: number,
+        sessions: sessions,
+        startTime: startTime
+    });
     
     if (deleteCourse) {
         res.status(201).json({
