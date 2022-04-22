@@ -1,52 +1,49 @@
-// import React, { Component } from 'react';
-// import { useNavigate } from "react-router-dom";
-
-// class Register extends Component {
-//     constructor(props){
-//         super(props);
-//         this.register = this.register.bind(this);
-//     }
-//     register(){
-//         const navigate = useNavigate();
-//         navigate("/studentdashboard");
-//     }
-//     render() {
-//         return (
-//             <>
-//                 <div>
-//                     Register
-//                 </div>
-//                 <button>
-//                     Register
-//                 </button>
-//             </>
-//         );
-//     }
-// }
-
-
-// export default Register;
-
 
 import React, { Component } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 
-function App(props) {
+function Register(props) {
     const navigate = useNavigate();
-    function Register(){
-        navigate("/studentdashboard");
+
+    async function handleRegister(){
+        let loginName = document.getElementById("uname").value;
+        let password = document.getElementById("pword").value;
+
+        const result = await fetch('http://localhost:5000/api/user/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                loginName,
+                password,
+                isProf: true
+            })
+          }).then((res) => res.json());
+        if (result.success == true){
+            navigate("/login");
+        }else{
+            alert(result.info);
+        }
+    }
+
+    function goToLogin(){
+        navigate("/login");
     }
 
     return (
         <>
-            <div>
-                Register
-            </div>
-            <button onClick={Register}>
-                Register
-            </button>
+        <h1>Register</h1>
+            <input id="uname">
+            </input>
+            <input id="pword">
+            </input>
+
+            <button onClick={handleRegister}>Register</button>
+            <button onClick={goToLogin}>Go to login page</button>
         </>
     );
 }
@@ -57,4 +54,4 @@ function App(props) {
 
 // };
 
-export default App;
+export default Register;

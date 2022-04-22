@@ -3,6 +3,7 @@
 
 // import routes & functionalities
 const express = require("express"); // import express functionalities
+var cors = require('cors');
 const connectDB = require("./db"); // import MongoDB functionalities
 const userRoutes = require("./userRoutes"); // import user route
 const courseRoutes = require("./courseRoutes");
@@ -10,6 +11,7 @@ const studentCourseRoutes = require("./studentCourseRoutes");
 
 connectDB();
 const app = express(); // start express application
+app.use(cors());
 app.use(express.json()); // accept JSON data from API requests
 
 // GET Request from '/' route

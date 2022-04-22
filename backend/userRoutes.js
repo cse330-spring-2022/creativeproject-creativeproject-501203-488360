@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/register", asyncHandler(async (req, res) => {
     // Node.js: access request body
     // posted object has 3 parameters
+    console.log("receiving register req");
     const { loginName, password, isProf } = req.body;
 
     // a login ID matches: user exists (throw an error)
@@ -40,6 +41,7 @@ router.post("/register", asyncHandler(async (req, res) => {
 
 // '/login' route (login registered users)
 router.post('/login', asyncHandler(async (req, res) => {
+    console.log("receiving login req");
     const { loginName, password } = req.body;
 
     // a login ID matches: user exists (if not, throw an error)
