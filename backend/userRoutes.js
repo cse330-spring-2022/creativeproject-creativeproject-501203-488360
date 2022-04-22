@@ -13,9 +13,11 @@ router.post("/register", asyncHandler(async (req, res) => {
     const userExists = await User.findOne({ loginName: loginName });
     if (userExists) {
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409
-        res.status(409); // conflict
-
-        throw new Error("User already exists");
+        res.status(409).json({
+            success: false,
+            info: "User already exists"
+        }); // conflict
+        return;
     }
 
     // create new user
@@ -24,15 +26,15 @@ router.post("/register", asyncHandler(async (req, res) => {
     if (newUser) { // if new User successfully created
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
         res.status(201).json({
-            // https://mongoosejs.com/docs/guide.html#id
-            _id: newUser._id, // secret ID
-
-            loginName: loginName,
-            isProf: isProf
+            success: true,
+            object: newUser
         }); // user created
     } else {
-        res.status(400);
-        throw new Error("Fail to register");
+        res.status(400).json({
+            success: false,
+            info: "Fail to register"
+        });
+        return;
     }
 }));
 
@@ -43,21 +45,25 @@ router.post('/login', asyncHandler(async (req, res) => {
     // a login ID matches: user exists (if not, throw an error)
     const user = await User.findOne({ loginName: loginName });
     if (!user) {
-        res.status(404);
-        throw new Error("User not found");
+        res.status(404).json({
+            success: false,
+            info: "User not found"
+        });
+        return;
     }
 
     const matchPwd = await user.matchPassword(password);
     if (matchPwd) {
         res.status(200).json({
-            _id: user._id,
-            loginName: user.loginName,
-            password: user.password,
-            isProf: user.isProf
+            success: true,
+            object: user
         });
     } else {
-        res.status(400);
-        throw new Error("Wrong password");
+        res.status(400).json({
+            success: false,
+            info: "Wrong password"
+        });
+        return;
     }
 }));
 

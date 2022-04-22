@@ -13,8 +13,11 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         isProf: false
     });
     if (!studExists) {
-        res.status(404);
-        throw new Error("Not a valid student");
+        res.status(404).json({
+            success: false,
+            info: "Not a valid student"
+        });
+        return;
     }
 
     // https://stackoverflow.com/questions/7033331/how-to-use-mongoose-findone
@@ -25,14 +28,20 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         startTime: startTime
     });
     if (!courseExists) {
-        res.status(404);
-        throw new Error("Not a valid course");
+        res.status(404).json({
+            success: false,
+            info: "Not a valid course"
+        });
+        return;
     }
 
     const sameCourse = await StudentCourse.findOne({ stud: stud, code: code, number: number });
     if (sameCourse) {
-        res.status(409);
-        throw new Error("Course already registered");
+        res.status(409).json({
+            success: false,
+            info: "Course already registered"
+        });
+        return;
     }
 
     const addStudentCourse = await StudentCourse.create({
@@ -47,18 +56,15 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
     });
     if (addStudentCourse) {
         res.status(201).json({
-            student: stud,
-            code: code,
-            number: number,
-            name: courseExists.name,
-            prof: courseExists.prof,
-            sessions: sessions,
-            startTime: startTime,
-            endTime: startTime+80
+            success: true,
+            object: addStudentCourse
         });
     } else {
-        res.status(400);
-        throw new Error("Fail to add student course");
+        res.status(400).json({
+            success: false,
+            object: "Fail to add student course"
+        });
+        return;
     }
 }));
 
@@ -75,15 +81,15 @@ router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
     });
     if (deleteStudentCourse) {
         res.status(200).json({
-            student: stud,
-            code: code,
-            number: number,
-            sessions: sessions,
-            startTime: startTime
+            success: true,
+            object: deleteStudentCourse
         });
     } else {
-        res.status(400);
-        throw new Error("Fail to delete student course");
+        res.status(400).json({
+            success: false,
+            info: "Fail to delete student course"
+        });
+        return;
     }
 }));
 

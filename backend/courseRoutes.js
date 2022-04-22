@@ -13,8 +13,11 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         isProf: true
     });
     if (!profExists) {
-        res.status(404);
-        throw new Error("Not a valid professor");
+        res.status(404).json({
+            success: false,
+            info: "Not a valid professor"
+        });
+        return;
     }
 
     // prevent schedule self-conflict
@@ -24,8 +27,11 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
     if (conflict1) {
-        res.status(409);
-        throw new Error("Fail to create a course: schedule self-conflict");
+        res.status(409).json({
+            success: false,
+            info: "Fail to create a course: schedule self-conflict"
+        });
+        return;
     }
 
     // no two sessions of a course shall ever overlap (whether by the same professor or not)
@@ -36,8 +42,11 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
     if (conflict2) {
-        res.status(409);
-        throw new Error("Fail to create a course: sessions overlap");
+        res.status(409).json({
+            success: false,
+            info: "Fail to create a course: sessions overlap"
+        });
+        return;
     }
 
     const newCourse = await Course.create({
@@ -51,18 +60,15 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
     });
     if (newCourse) {
         res.status(201).json({
-            _id: newCourse._id,
-            prof: prof,
-            code: code,
-            number: number,
-            name: name,
-            sessions: sessions,
-            startTime: startTime,
-            endTime: startTime+80
+            success: true,
+            object: newCourse
         });
     } else {
-        res.status(400);
-        throw new Error("Fail to add course");
+        res.status(400).json({
+            success: false,
+            info: "Fail to add course"
+        });
+        return;
     }
 }));
 
@@ -78,8 +84,11 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
         startTime: startTime
     });
     if (!deleteFromStud) {
-        res.status(400);
-        throw new Error("Fail to delete course from students");
+        res.status(400).json({
+            success: false,
+            info: "Fail to delete course from students"
+        });
+        return;
     }
 
     // https://www.mongodb.com/docs/mongodb-shell/crud/delete/
@@ -93,15 +102,15 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
     
     if (deleteCourse) {
         res.status(201).json({
-            prof: prof,
-            code: code,
-            number: number,
-            sessions: sessions,
-            startTime: startTime
+            success: true,
+            object: deleteCourse
         });
     } else {
-        res.status(400);
-        throw new Error("Fail to delete course");
+        res.status(400).json({
+            success: false,
+            info: "Fail to delete course"
+        });
+        return;
     }
 }));
 
