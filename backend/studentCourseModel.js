@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const courseSchema = mongoose.Schema({
-    prof: {
+const studentCourseSchema = mongoose.Schema({
+    student: {
         type: String,
         required: true
     },
@@ -14,6 +14,10 @@ const courseSchema = mongoose.Schema({
         required: true
     },
     name: {
+        type: String,
+        required: true
+    },
+    prof: {
         type: String,
         required: true
     },
@@ -31,5 +35,5 @@ const courseSchema = mongoose.Schema({
     }
 });
 
-const Course = mongoose.model("courses", courseSchema);
-module.exports = Course;
+const StudentCourse = mongoose.model("courses", studentCourseSchema);
+module.exports = StudentCourse;

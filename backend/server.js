@@ -6,6 +6,7 @@ const express = require("express"); // import express functionalities
 const connectDB = require("./db"); // import MongoDB functionalities
 const userRoutes = require("./userRoutes"); // import user route
 const courseRoutes = require("./courseRoutes");
+const studentCourseRoutes = require("./studentCourseRoutes");
 
 connectDB();
 const app = express(); // start express application
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 // app.use(): set routes
 app.use("/api/user", userRoutes); // set user route
 app.use("/api/course", courseRoutes);
+app.use("/api/studentCourse", studentCourseRoutes);
 
 PORT = 5000;
 app.listen(PORT, console.log(`Server running on PORT ${PORT}...`)); // listen for connection

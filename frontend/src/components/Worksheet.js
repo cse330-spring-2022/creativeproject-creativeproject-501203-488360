@@ -6,8 +6,8 @@ class Worksheet extends Component {
         this.getMyCourses = this.getMyCourses.bind(this);
         this.state = {
             myCourses: [
-                {code: "MATH", number: 102, name: "Calculus 2", sessions: "TBD"},
-                {code: "MATH", number: 200, name: "Calculus 3", sessions: "TBD"}
+                {code: "MATH", number: "102", name: "Calculus 2", sessions: "TBD"},
+                {code: "MATH", number: "200", name: "Calculus 3", sessions: "TBD"}
             ], //an array of objects with course info
             myCourseTimes:[], //an array of arrays corresponding to the time in each course
         }
@@ -18,7 +18,6 @@ class Worksheet extends Component {
 
     }
     render() {
-
         var classes = this.state.myCourses.map((item, i) => (
             <tr key={i}>
                 <td>{item.name}</td>
