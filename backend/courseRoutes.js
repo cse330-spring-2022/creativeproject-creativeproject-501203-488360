@@ -13,7 +13,7 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         isProf: true
     });
     if (!profExists) {
-        res.status(404).json({
+        res.json({
             success: false,
             info: "Not a valid professor"
         });
@@ -27,7 +27,7 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
     if (conflict1) {
-        res.status(409).json({
+        res.json({
             success: false,
             info: "Fail to create a course: schedule self-conflict"
         });
@@ -42,7 +42,7 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
     });
     if (conflict2) {
-        res.status(409).json({
+        res.json({
             success: false,
             info: "Fail to create a course: sessions overlap"
         });
@@ -59,12 +59,12 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         endTime: startTime+80 // a course session lasts 80 minutes
     });
     if (newCourse) {
-        res.status(201).json({
+        res.json({
             success: true,
             object: newCourse
         });
     } else {
-        res.status(400).json({
+        res.json({
             success: false,
             info: "Fail to add course"
         });
@@ -84,7 +84,7 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
         startTime: startTime
     });
     if (!deleteFromStud) {
-        res.status(400).json({
+        res.json({
             success: false,
             info: "Fail to delete course from students"
         });
@@ -101,12 +101,12 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
     });
     
     if (deleteCourse) {
-        res.status(201).json({
+        res.json({
             success: true,
             object: deleteCourse
         });
     } else {
-        res.status(400).json({
+        res.json({
             success: false,
             info: "Fail to delete course"
         });

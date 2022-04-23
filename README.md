@@ -17,8 +17,13 @@ GitHub Username: cpatrick321
 
 **Before first use**
 1. Open the project root folder (where this README.md file is in) inside a terminal; go to 'frontend' folder and run the command 'npm install'.
-2. Go back to the project root folder and run the command 'npm install express express-async-handler jsonwebtoken mongoose bcryptjs'.
-3. Go to 'backend' folder and run the command 'npm i cors'.
+2. Inside the 'frontend' folder, run the command 'react-router-dom'.
+3. Go back to the project root folder and run the command 'npm install express express-async-handler jsonwebtoken mongoose bcryptjs'.
+4. Go to the 'backend' folder and run the command 'npm i cors'.
+
+**Running the program**
+1. Go to the 'backend' folder, open up a terminal and run 'node server' (or 'nodemon server' if the 'nodemon' package is installed).
+2. Go to the 'frontend' folder, open up another terminal and run 'npm start'.
 
 <br>
 

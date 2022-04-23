@@ -1,5 +1,4 @@
 // https://piyush-eon.medium.com/user-authentication-in-mern-stack-application-cbca694c7063
-// run command: nodemon backend/server
 
 // import routes & functionalities
 const express = require("express"); // import express functionalities

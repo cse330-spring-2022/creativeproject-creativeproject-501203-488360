@@ -13,11 +13,10 @@ router.post("/register", asyncHandler(async (req, res) => {
     // a login ID matches: user exists (throw an error)
     const userExists = await User.findOne({ loginName: loginName });
     if (userExists) {
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409
-        res.status(409).json({
+        res.json({
             success: false,
             info: "User already exists"
-        }); // conflict
+        });
         return;
     }
 
@@ -25,13 +24,12 @@ router.post("/register", asyncHandler(async (req, res) => {
     const newUser = await User.create({ loginName: loginName, password: password, isProf: isProf });
 
     if (newUser) { // if new User successfully created
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
-        res.status(201).json({
+        res.json({
             success: true,
             object: newUser
         }); // user created
     } else {
-        res.status(400).json({
+        res.json({
             success: false,
             info: "Fail to register"
         });
@@ -47,7 +45,7 @@ router.post('/login', asyncHandler(async (req, res) => {
     // a login ID matches: user exists (if not, throw an error)
     const user = await User.findOne({ loginName: loginName });
     if (!user) {
-        res.status(404).json({
+        res.json({
             success: false,
             info: "User not found"
         });
@@ -56,12 +54,12 @@ router.post('/login', asyncHandler(async (req, res) => {
 
     const matchPwd = await user.matchPassword(password);
     if (matchPwd) {
-        res.status(200).json({
+        res.json({
             success: true,
             object: user
         });
     } else {
-        res.status(400).json({
+        res.json({
             success: false,
             info: "Wrong password"
         });

@@ -14,7 +14,7 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         isProf: false
     });
     if (!studExists) {
-        res.status(404).json({
+        res.json({
             success: false,
             info: "Not a valid student"
         });
@@ -29,7 +29,7 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         startTime: startTime
     });
     if (!courseExists) {
-        res.status(404).json({
+        res.json({
             success: false,
             info: "Not a valid course"
         });
@@ -38,7 +38,7 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
 
     const sameCourse = await StudentCourse.findOne({ stud: stud, code: code, number: number });
     if (sameCourse) {
-        res.status(409).json({
+        res.json({
             success: false,
             info: "Course already registered"
         });
@@ -56,12 +56,12 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         endTime: startTime+80
     });
     if (addStudentCourse) {
-        res.status(201).json({
+        res.json({
             success: true,
             object: addStudentCourse
         });
     } else {
-        res.status(400).json({
+        res.json({
             success: false,
             object: "Fail to add student course"
         });
@@ -81,12 +81,12 @@ router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
         startTime: startTime
     });
     if (deleteStudentCourse) {
-        res.status(200).json({
+        res.json({
             success: true,
             object: deleteStudentCourse
         });
     } else {
-        res.status(400).json({
+        res.json({
             success: false,
             info: "Fail to delete student course"
         });
