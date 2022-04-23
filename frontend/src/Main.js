@@ -9,8 +9,8 @@ import ProfessorDashboard from './pages/ProfessorDashboard';
 const Main = () => {
   return (
     <Routes> {/* The Switch decides which component to show based on the current URL.*/}
-      <Route exact path='/' element={<Register />}></Route>
-      <Route exact path='/login' element={<Login />}></Route>
+      <Route exact path='/register' element={<Register />}></Route>
+      <Route exact path='/' element={<Login />}></Route>
       <Route exact path='/studentdashboard' element={<StudentDashboard />}></Route>
       <Route exact path='/professordashboard' element={<ProfessorDashboard />}></Route>
     </Routes>
