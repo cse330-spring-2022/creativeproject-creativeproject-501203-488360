@@ -52,8 +52,62 @@ function ProfessorAddCourse(props) {
             }).then((res) => res.json());
 
             if (result.success) {
-                let newCourse = document.createElement("div");
-                newCourse.innerHTML = name;
+                let newCourse = document.createElement("tr");
+                let td1 = document.createElement("td");
+                td1.innerHTML = name;
+
+                let td2 = document.createElement("td");
+                td2.innerHTML = code;
+
+                let td3 = document.createElement("td");
+                td3.innerHTML = number;
+
+                let td4 = document.createElement("td");
+                td4.innerHTML = sessions;
+
+                let td5 = document.createElement("td");
+                td5.innerHTML = startTime;
+
+                let td6 = document.createElement("td");
+                let delButton = document.createElement("button");
+                delButton.innerHTML = "Delete";
+
+                delButton.addEventListener('click', async function deleteCourse(e){
+            
+                    //delete the course from the database
+                    let name = e.target.parentElement.parentElement.firstChild.innerHTML;
+                    console.log(name);
+                    const result = await fetch('http://localhost:5000/api/course/deleteCourse', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: name
+                        })
+                      }).then((res) => res.json());
+            
+                      console.log(result);
+
+                    //delete the course from the DOM
+                    let row = e.target.parentElement.parentElement
+                    row.remove();
+            
+                });
+
+
+
+
+                td6.appendChild(delButton);
+                newCourse.appendChild(td1);
+                newCourse.appendChild(td2);
+                newCourse.appendChild(td3);
+                newCourse.appendChild(td4);
+                newCourse.appendChild(td5);
+                newCourse.appendChild(td6);
+
+                // newCourse.innerHTML = name;
                 document.getElementById('myCourses').appendChild(newCourse);
                 
                 document.getElementById("courseName").value = "";

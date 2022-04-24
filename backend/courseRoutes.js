@@ -74,14 +74,15 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
 
 // professor delete course sessions
 router.post('/deleteCourse', asyncHandler(async (req, res) => {
-    const { prof, code, number, sessions, startTime } = req.body;
+    const { prof, name, code, number, sessions, startTime } = req.body;
     
     // First, delete the course session from students' course registration sheets
     const deleteFromStud = await db.collection("student_courses").deleteMany({
-        code: code,
-        number: number,
-        sessions: sessions,
-        startTime: startTime
+        // code: code,
+        // number: number,
+        // sessions: sessions,
+        // startTime: startTime
+        courseName: "dneu"
     });
     if (!deleteFromStud) {
         res.json({
@@ -93,11 +94,12 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
 
     // https://www.mongodb.com/docs/mongodb-shell/crud/delete/
     const deleteCourse = await Course.deleteOne({
-        prof: prof,
-        code: code,
-        number: number,
-        sessions: sessions,
-        startTime: startTime
+        // prof: prof,
+        // code: code,
+        // number: number,
+        // sessions: sessions,
+        // startTime: startTime
+        courseName: "dasd"
     });
     
     if (deleteCourse) {

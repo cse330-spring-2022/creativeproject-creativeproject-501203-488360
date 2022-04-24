@@ -7,6 +7,8 @@ class ProfessorsCourses extends Component {
             myCourses: []
         }
         this.getMyCourses = this.getMyCourses.bind(this);
+        this.deleteCourse = this.deleteCourse.bind(this);
+
     }
 
     componentDidMount(){
@@ -36,18 +38,62 @@ class ProfessorsCourses extends Component {
           //update the state to reflect the professor's courses
           this.setState({myCourses: result});
     }
+
+    async deleteCourse(e){
+        //delete the course from the database
+        let name = e.target.parentElement.parentElement.firstChild.innerHTML;
+        console.log(name);
+        const result = await fetch('http://localhost:5000/api/course/deleteCourse', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name
+            })
+          }).then((res) => res.json());
+
+          console.log(result);
+
+        //delete the course from the DOM
+          let row = e.target.parentElement.parentElement
+          row.remove();
+
+    }
+
     render() {
         var myCourses = this.state.myCourses.map((item, i) => (
-            <div key={i}>{item.name}</div>
+            // <div key={i}>{item.name}</div>
+            <tr key={i}>
+                <td>{item.name}</td>
+                <td>{item.code}</td>
+                <td>{item.number}</td>
+                <td>{item.sessions}</td>
+                <td>{item.startTime}</td>
+                <td><button onClick={this.deleteCourse}>Delete</button></td>
+            </tr>
         ))
         return (
             <div>
                 <div>
                     My Courses
                 </div>
-                <div id="myCourses">
-                    {myCourses}
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Number</th>
+                            <th>Sessions</th>
+                            <th>Start Time</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="myCourses">
+                        {myCourses}
+                    </tbody>
+                </table>
             </div>
         );
     }

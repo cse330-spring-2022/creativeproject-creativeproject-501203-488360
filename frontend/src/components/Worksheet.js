@@ -39,7 +39,7 @@ class Worksheet extends Component {
                             <th>Course Sessions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="mycourses">
                         {classes}
                     </tbody>
                     
