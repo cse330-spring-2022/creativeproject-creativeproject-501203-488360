@@ -68,8 +68,8 @@ function Register(props) {
     return (
         <>
         <h1>Register</h1>
-        <input id="uname"></input>
-        <input id="pword"></input>
+        <p>Username: <input id="uname"></input></p>
+        <p>Password: <input type="password" id="pword"></input></p>
 
         {/* https://reactjs.org/docs/faq-functions.html */}
         <button onClick={handleRegister.bind(this, false)}>Register as Student</button>

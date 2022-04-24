@@ -26,6 +26,3 @@ function ProfessorDashboard(){
 }
 
 export default ProfessorDashboard;
-
-
-

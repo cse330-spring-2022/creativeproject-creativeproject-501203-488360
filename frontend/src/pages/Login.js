@@ -73,8 +73,8 @@ function Login(props) {
     return (
         <>
         <h1>Login</h1>
-        <input id="uname"></input>
-        <input id="pword"></input>
+        <p>Username: <input id="uname"></input></p>
+        <p>Password: <input type="password" id="pword"></input></p>
         <button onClick={handleRegister}>Login</button>
         <button onClick={goToRegister}>Go to register page</button>
         </>
