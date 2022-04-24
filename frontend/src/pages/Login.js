@@ -9,12 +9,20 @@ function Login(props) {
 
     console.log(document.cookie);
 
+    //https://javascript.info/cookie
+    function getCookieValue(name){
+        let match = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+          ));
+        return match = match ? decodeURIComponent(match[1]) : undefined;
+    }
+
     // https://reactjs.org/docs/hooks-effect.html
     useEffect(() => {
-        if (document.cookie != "") {
-            let cookies = document.cookie.split(" ");
-            if (cookies[1] == "prof") { navigate("/professordashboard") }
-            else if (cookies[1] == "stud") { navigate("/studentdashboard") }
+        let role = getCookieValue("role");
+        if (role != "") {
+            if (role == "prof") { navigate("/professordashboard") }
+            else if (role == "stud") { navigate("/studentdashboard") }
         }
     });
 
@@ -37,10 +45,12 @@ function Login(props) {
 
             if (result.success == true) {
                 if (result.object.isProf) {
-                    document.cookie = result.object.loginName + " prof"; 
+                    document.cookie = "user=" + loginName;
+                    document.cookie = "role=prof";
                     navigate("/professordashboard");
                 } else {
-                    document.cookie = result.object.loginName + " stud"; 
+                    document.cookie = "user=" + loginName;
+                    document.cookie = "role=stud";
                     navigate("/studentdashboard");
                 }
             } else {

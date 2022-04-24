@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ProfessorAddCourse from '../components/ProfessorAddCourse';
 import ProfessorsCourses from '../components/ProfessorsCourses';
 
-class ProfessorDashboard extends Component {
-    handelLogout() {
+function ProfessorDashboard(){
+    const navigate = useNavigate();
+
+    function handleLogout(){
         // https://reactrouter.com/docs/en/v6/api#navigate
-        document.cookie = "";
-        <Navigate to="/" replace={true} />
+        document.cookie = "user="
+        document.cookie = "role="
+        navigate('/');
     }
-    
-    render() { // on page load
-        console.log(document.cookie);
+    return(
+    <>
+        <h1>Professor Dashboard</h1>
 
-        return (
-            <>
-            <h1>Professor Dashboard</h1>
+        {/* https://reactjs.org/docs/faq-functions.html */}
+        <button onClick={handleLogout}>Logout</button>
 
-            {/* https://reactjs.org/docs/faq-functions.html */}
-            <button onClick={this.handelLogout}>Logout</button>
-
-            <ProfessorsCourses />
-            </>
-        );
-    }
+        <ProfessorAddCourse />
+        <ProfessorsCourses />
+    </>
+    );
 }
 
 export default ProfessorDashboard;
+
+
+

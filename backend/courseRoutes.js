@@ -121,9 +121,9 @@ router.get('/getCourse', (req, res) => {
 });
 
 // get list of courses add by current (logged-in) professor
-router.get('/getCourseByProf', (req, res) => {
-    const { prof } = req.body;
-    const courses = Course.find({ prof: prof });
+router.post('/getCourseByProf', async (req, res) => {
+    const { professor } = req.body;
+    const courses = await Course.find({ prof: professor });
     res.json(courses);
 });
 

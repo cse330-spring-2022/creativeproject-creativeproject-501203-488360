@@ -10,11 +10,20 @@ function Register(props) {
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
     console.log(document.cookie);
 
+    //https://javascript.info/cookie
+    function getCookieValue(name){
+        let match = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+          ));
+
+        return match = match ? decodeURIComponent(match[1]) : undefined;
+    }
+
     useEffect(() => {
+        let role = getCookieValue("role");
         if (document.cookie != "") {
-            let cookies = document.cookie.split(" ");
-            if (cookies[1] == "prof") { navigate("/professordashboard") }
-            else if (cookies[1] == "stud") { navigate("/studentdashboard") }
+            if (role == "prof") { navigate("/professordashboard") }
+            else if (role == "stud") { navigate("/studentdashboard") }
         }
     });
 
@@ -38,7 +47,7 @@ function Register(props) {
                 })
             }).then((res) => res.json());
 
-            if (result.success) { navigate("/login"); }
+            if (result.success) { navigate("/"); }
             else {
                 alert(result.info);
                 document.getElementById("uname").value = "";
