@@ -82,7 +82,7 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
         // number: number,
         // sessions: sessions,
         // startTime: startTime
-        courseName: "dneu"
+        courseName: name
     });
     if (!deleteFromStud) {
         res.json({
@@ -99,7 +99,7 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
         // number: number,
         // sessions: sessions,
         // startTime: startTime
-        courseName: "dasd"
+        courseName: name
     });
     
     if (deleteCourse) {
@@ -122,11 +122,17 @@ router.get('/getCourse', (req, res) => {
     res.json(courses);
 });
 
+router.post('/getCourseByStud', async (req, res) => {
+    const { student } = req.body;
+    const courses = await Course.find({student});
+    res.json(courses);
+})
+
 // get list of courses add by current (logged-in) professor
 router.post('/getCourseByProf', async (req, res) => {
-    const { professor } = req.body;
-    const courses = await Course.find({ prof: professor });
-    res.json(courses);
+    // const { professor } = req.body;
+    // const courses = await Course.find({ prof: professor });
+    // res.json(courses);
 });
 
 module.exports = router;

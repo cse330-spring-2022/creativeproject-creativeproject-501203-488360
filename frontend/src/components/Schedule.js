@@ -10,8 +10,31 @@ class Schedule extends Component {
         }
         this.getMyCourses = this.getMyCourses.bind(this);
     }
+
+    //https://javascript.info/cookie
+    getCookieValue(name){
+        let match = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+
+        return match = match ? decodeURIComponent(match[1]) : undefined;
+    }
+
     getMyCourses(){
+        let name = this.getCookieValue("user");
         //retrieve the courses
+        // const result = await fetch('http://localhost:5000/api/', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         loginName,
+        //         password,
+        //         isProf: prof
+        //     })
+        // }).then((res) => res.json());
 
         //add each course to myCourses
 
