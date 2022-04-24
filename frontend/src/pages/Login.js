@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
@@ -6,14 +5,13 @@ import { useState, useEffect } from 'react';
 
 function Login(props) {
     const navigate = useNavigate();
-
     console.log(document.cookie);
 
-    //https://javascript.info/cookie
-    function getCookieValue(name){
+    // https://javascript.info/cookie
+    function getCookieValue(name) {
         let match = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-          ));
+        ));
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
 

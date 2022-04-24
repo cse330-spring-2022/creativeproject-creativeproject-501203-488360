@@ -24,7 +24,7 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
     const conflict1 = await Course.findOne({
         prof: prof,
         sessions: sessions,
-        $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
+        $or: [{ startTime: startTime }, { startTime: startTime-30 }, { startTime: startTime-60 }]
     });
     if (conflict1) {
         res.json({
@@ -39,7 +39,7 @@ router.post('/addCourse', asyncHandler(async (req, res) => {
         code: code,
         number: number,
         sessions: sessions,
-        $or: [{ startTime: startTime }, { startTime: startTime+30 }, { startTime: startTime+60 }]
+        $or: [{ startTime: startTime }, { startTime: startTime-30 }, { startTime: startTime-60 }]
     });
     if (conflict2) {
         res.json({
