@@ -1,65 +1,62 @@
 import React, { Component } from 'react';
 
 class ProfessorsCourses extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {
-            myCourses: []
-        }
+        this.state = { myCourses: [] };
         this.getMyCourses = this.getMyCourses.bind(this);
         this.deleteCourse = this.deleteCourse.bind(this);
-
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getMyCourses();
     }
 
     //https://javascript.info/cookie
-    getCookieValue(name){
+    getCookieValue(name) {
         let match = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-          ));
+        ));
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
 
-    async getMyCourses(){
+    async getMyCourses() {
         let professor = this.getCookieValue("user");
         const result = await fetch('http://localhost:5000/api/course/getCourseByProf', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 professor
             })
-          }).then((res) => res.json());
-          //update the state to reflect the professor's courses
-          this.setState({myCourses: result});
+        }).then((res) => res.json());
+
+        // update the state to reflect the professor's courses
+        this.setState({myCourses: result});
     }
 
-    async deleteCourse(e){
+    async deleteCourse(e) {
         //delete the course from the database
         let name = e.target.parentElement.parentElement.firstChild.innerHTML;
         console.log(name);
         const result = await fetch('http://localhost:5000/api/course/deleteCourse', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 name: name
             })
-          }).then((res) => res.json());
+        }).then((res) => res.json());
 
-          console.log(result);
+        console.log(result);
 
-        //delete the course from the DOM
-          let row = e.target.parentElement.parentElement
-          row.remove();
-
+        // delete the course from the DOM
+        let row = e.target.parentElement.parentElement
+        row.remove();
     }
 
     render() {
@@ -73,7 +70,7 @@ class ProfessorsCourses extends Component {
                 <td>{item.startTime}</td>
                 <td><button onClick={this.deleteCourse}>Delete</button></td>
             </tr>
-        ))
+        ));
         return (
             <div>
                 <div>
@@ -90,9 +87,7 @@ class ProfessorsCourses extends Component {
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="myCourses">
-                        {myCourses}
-                    </tbody>
+                    <tbody id="myCourses">{myCourses}</tbody>
                 </table>
             </div>
         );

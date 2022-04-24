@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
@@ -6,14 +5,14 @@ import { useState, useEffect } from 'react';
 
 function ProfessorAddCourse(props) {
     const navigate = useNavigate();
-    const allPossibleStartTimes = [480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780, 810, 840, 870, 900, 930, 960, 990, 1020, 1050, 1080, 1110, 1140, 1170];
+    const allPossibleStartTimes = [480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780, 810, 840, 870, 900, 930, 960, 990, 1020, 1050, 1080, 1110];
     console.log(document.cookie);
 
     // https://javascript.info/cookie
     function getCookieValue(name) {
         let match = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-          ));
+        ));
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
 
@@ -72,32 +71,34 @@ function ProfessorAddCourse(props) {
                 let delButton = document.createElement("button");
                 delButton.innerHTML = "Delete";
 
-                delButton.addEventListener('click', async function deleteCourse(e){
-            
-                    //delete the course from the database
+                delButton.addEventListener('click', async function deleteCourse(e) {
+                    // if logged out in another tab, then force log out in this tab as well
+                    let role = getCookieValue("role");
+                    if (role == "") {
+                        navigate("/");
+                        return;
+                    }
+
+                    // delete the course from the database
                     let name = e.target.parentElement.parentElement.firstChild.innerHTML;
                     console.log(name);
                     const result = await fetch('http://localhost:5000/api/course/deleteCourse', {
                         method: 'POST',
                         headers: {
-                          'Content-Type': 'application/json',
-                          'Accept': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
                         body: JSON.stringify({
                             name: name
                         })
-                      }).then((res) => res.json());
+                    }).then((res) => res.json());
             
-                      console.log(result);
+                    console.log(result);
 
-                    //delete the course from the DOM
+                    // delete the course from the DOM
                     let row = e.target.parentElement.parentElement
                     row.remove();
-            
                 });
-
-
-
 
                 td6.appendChild(delButton);
                 newCourse.appendChild(td1);
@@ -121,7 +122,7 @@ function ProfessorAddCourse(props) {
         }
     }
 
-    var timeOptions = allPossibleStartTimes.map((item, i) =>(
+    var timeOptions = allPossibleStartTimes.map((item, i) => (
         <option value={item} key={i}>{displayTime(allPossibleStartTimes[i])}</option>
     ))
 

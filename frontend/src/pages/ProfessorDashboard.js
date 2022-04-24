@@ -16,10 +16,9 @@ function ProfessorDashboard(){
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
 
-    // https://reactjs.org/docs/hooks-effect.html
     useEffect(() => {
         let role = getCookieValue("role");
-        if (role == "") { navigate("/") }
+        if (role == "") { navigate("/"); }
     });
 
     function handleLogout(){
@@ -28,15 +27,16 @@ function ProfessorDashboard(){
         document.cookie = "role="
         navigate('/');
     }
+
     return(
     <>
-        <h1>Professor Dashboard</h1>
+    <h1>Professor Dashboard</h1>
 
-        {/* https://reactjs.org/docs/faq-functions.html */}
-        <button onClick={handleLogout}>Logout</button>
+    {/* https://reactjs.org/docs/faq-functions.html */}
+    <button onClick={handleLogout}>Logout</button>
 
-        <ProfessorAddCourse />
-        <ProfessorsCourses />
+    <ProfessorAddCourse />
+    <ProfessorsCourses />
     </>
     );
 }
