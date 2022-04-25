@@ -43,7 +43,7 @@ class ProfessorsCourses extends Component {
     }
 
     async deleteCourse(e) {
-        let role = getCookieValue("role");
+        let role = this.getCookieValue("role");
         if (role == "") {
             // https://reactrouter.com/docs/en/v6/api#navigate
             <Navigate to="/" replace={true} />

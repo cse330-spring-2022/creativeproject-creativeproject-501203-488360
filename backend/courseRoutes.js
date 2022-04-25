@@ -129,4 +129,11 @@ router.post('/getCourseByProf', async (req, res) => {
     res.json(courses);
 });
 
+// get course by name
+router.post('/getCourseByName', async (req, res) => {
+    const { name } = req.body;
+    const courses = await Course.find({ name: name });
+    res.json(courses);
+});
+
 module.exports = router;

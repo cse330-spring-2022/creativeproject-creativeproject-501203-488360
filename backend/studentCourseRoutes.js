@@ -45,6 +45,8 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         return;
     }
 
+    let 
+
     const addStudentCourse = await StudentCourse.create({
         student: stud,
         code: code,
@@ -95,9 +97,9 @@ router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
 }));
 
 // get courses added by current student
-router.get('/getCourseByStudent', (req, res) => {
+router.post('/getCourseByStudent', async (req, res) => {
     const { stud } = req.body;
-    const courses = StudentCourse.find({ student: stud });
+    const courses = await StudentCourse.find({ student: stud });
     res.json(courses);
 });
 
