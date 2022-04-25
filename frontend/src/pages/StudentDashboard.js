@@ -3,10 +3,23 @@ import Schedule from '../components/Schedule';
 import Worksheet from '../components/Worksheet';
 import CourseSearchArea from '../components/CourseSearchArea';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 function StudentDashboard() {
     const navigate = useNavigate();
     console.log(document.cookie);
+
+    function getCookieValue(name) {
+        let match = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return match = match ? decodeURIComponent(match[1]) : undefined;
+    }
+
+    useEffect(() => {
+        let role = getCookieValue("role");
+        if (role == "") { navigate("/"); }
+    });
 
     function handleLogout(){
         // https://reactrouter.com/docs/en/v6/api#navigate

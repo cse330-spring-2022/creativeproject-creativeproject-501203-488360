@@ -30,9 +30,10 @@ GitHub Username: cpatrick321
 **Pre-registered professor users**
 Professors
 * good (password: 12345)
-* prof (password: )
+* prof (password: prof)
 Students
-* 
+* stud (password: student)
+* Adolph (password: 67890)
 
 <br>
 

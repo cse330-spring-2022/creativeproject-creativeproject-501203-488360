@@ -95,7 +95,7 @@ router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
 }));
 
 // get courses added by current student
-router.get('/getCourseByStudent', (req, res) => {
+router.post('/getCourseByStudent', (req, res) => {
     const { stud } = req.body;
     const courses = StudentCourse.find({ student: stud });
     res.json(courses);
