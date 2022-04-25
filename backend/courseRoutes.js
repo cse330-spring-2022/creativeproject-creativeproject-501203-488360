@@ -117,8 +117,8 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
 }));
 
 // get complete list of courses (not ordered)
-router.get('/getCourse', (req, res) => {
-    const courses = Course.find();
+router.post('/getCourse', async (req, res) => {
+    const courses = await Course.find();
     res.json(courses);
 });
 
