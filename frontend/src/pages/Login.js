@@ -28,7 +28,8 @@ function Login(props) {
         let loginName = document.getElementById("uname").value;
         let password = document.getElementById("pword").value;
 
-        if (loginName && !(/\s/g.test(loginName)) && password) {
+        if (loginName && /^[\p{sc=Latn}0-9]+$/u.test(loginName)
+        && password && /^[A-Za-z0-9]+$/.test(password)) {
             const result = await fetch('http://localhost:5000/api/user/login', {
                 method: 'POST',
                 headers: {
@@ -57,8 +58,7 @@ function Login(props) {
                 document.getElementById("pword").value = "";
             }
         } else {
-            alert("Username and can't be empty or contain or contain whitespace.\n"
-            + "Password can't be empty.");
+            alert("Username and password can't be empty and should be pure alphanumeric.");
             document.getElementById("uname").value = "";
             document.getElementById("pword").value = "";
         }
