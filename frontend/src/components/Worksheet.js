@@ -5,10 +5,7 @@ class Worksheet extends Component {
         super(props);
         this.getMyCourses = this.getMyCourses.bind(this);
         this.state = {
-            myCourses: [
-                {code: "MATH", number: "102", name: "Calculus 2", sessions: "TBD"},
-                {code: "MATH", number: "200", name: "Calculus 3", sessions: "TBD"}
-            ], // an array of objects with course info
+            myCourses: [], // an array of objects with course info
             myCourseTimes: [] // an array of arrays corresponding to the time in each course
         }
         this.getMyCourses = this.getMyCourses.bind(this);
