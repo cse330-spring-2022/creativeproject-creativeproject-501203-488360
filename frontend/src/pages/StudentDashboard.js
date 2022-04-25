@@ -21,6 +21,11 @@ function StudentDashboard() {
         if (role == "") { navigate("/"); }
     });
 
+    // https://reactjs.org/docs/conditional-rendering.html
+    function LoggedInAs() {
+        return getCookieValue("user");
+    }
+
     function handleLogout(){
         // https://reactrouter.com/docs/en/v6/api#navigate
         document.cookie = "user="
@@ -35,7 +40,7 @@ function StudentDashboard() {
     return (
         <>
         <h2>Student Dashboard</h2>
-        <button onClick={handleLogout}>Logout</button>
+        <p>Logged in as: <b><LoggedInAs /></b> <button onClick={handleLogout}>Logout</button></p>
         <CourseSearchArea />
         <Worksheet />
         <Schedule />

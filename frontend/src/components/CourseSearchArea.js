@@ -63,18 +63,19 @@ class CourseSearchArea extends Component {
             }
         }
 
-        alert("Course not found or no course selected.");
+        alert("No course selected or course not found.");
     }
 
     async addThisCourse(){
         let myName = this.getCookieValue("user");
         let courseName = document.getElementById("selectedCourse").value;
-        //first get the course's information from the database
+
+        // first get the course's information from the database
         const retrievedCourse = await fetch('http://localhost:5000/api/course/getCourseByName', {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 name: courseName
@@ -83,12 +84,12 @@ class CourseSearchArea extends Component {
         console.log("ADDING COURSE: THIS IS RETRIEVED COURSE:");
         console.log(retrievedCourse);
 
-        //then add it as a student course to the database
+        // then add it as a student course to the database
         const result = await fetch('http://localhost:5000/api/studentCourse/addStudentCourse', {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 stud: myName,
@@ -97,7 +98,6 @@ class CourseSearchArea extends Component {
                 sessions: retrievedCourse[0].sessions,
                 startTime: retrievedCourse[0].startTime
             })
-            //stud, code, number, sessions, startTime
         }).then((res) => res.json());
 
         console.log("RESULT OF ADDING THE COURSE");
@@ -110,7 +110,7 @@ class CourseSearchArea extends Component {
                 {item.code}&nbsp;{item.number}&nbsp;
                 {item.sessions.replace("-", "/")}&nbsp;{this.displayTime(item.startTime)}
             </option>
-        ))
+        ));
         return (
             <div>
                 Select Courses:&nbsp;

@@ -21,6 +21,10 @@ function ProfessorDashboard() {
         if (role == "") { navigate("/"); }
     });
 
+    function LoggedInAs() {
+        return getCookieValue("user");
+    }
+
     function handleLogout() {
         // https://reactrouter.com/docs/en/v6/api#navigate
         document.cookie = "user="
@@ -37,7 +41,7 @@ function ProfessorDashboard() {
         <h2>Professor Dashboard</h2>
 
         {/* https://reactjs.org/docs/faq-functions.html */}
-        <button onClick={handleLogout}>Logout</button>
+        <p>Logged in as: <b><LoggedInAs /></b> <button onClick={handleLogout}>Logout</button></p>
 
         <ProfessorAddCourse />
         <ProfessorsCourses />

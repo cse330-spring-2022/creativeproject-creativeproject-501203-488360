@@ -10,7 +10,7 @@ class Schedule extends Component {
         this.getMyCourses = this.getMyCourses.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getMyCourses();
     }
 
@@ -31,6 +31,7 @@ class Schedule extends Component {
 
     async getMyCourses() {
         let name = this.getCookieValue("user");
+
         // retrieve the courses
         const result = await fetch('http://localhost:5000/api/studentCourse/getCourseByStudent', {
             method: 'POST',
@@ -43,39 +44,37 @@ class Schedule extends Component {
             })
         }).then((res) => res.json());
 
-        //add each course to myCourses
+        // add each course to myCourses
         console.log("MY COURSES ARE");
         console.log(result);
 
         let tempMyCourseTimes = this.state.myCourseTimes;
         // console.log(result);
-        for (let i = 0; i < result.length; i++){
-
+        for (let i = 0; i < result.length; i++) {
             // calculate the time
             let timeIndex = (result[i].startTime - 480) / 30;
 
-            //add to schedule based on day of the week
-            if (result[i].sessions == "Mon-Wed"){
+            // add to schedule based on day of the week
+            if (result[i].sessions == "Mon-Wed") {
                 tempMyCourseTimes[timeIndex][0].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex][2].push({name: result[i].name});
-                //courses last 50 minutes so extend the course to the next time slot
+
+                // courses last 80 minutes so extend the course to the next 2 time slots
                 tempMyCourseTimes[timeIndex + 1][0].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex + 1][2].push({name: result[i].name});
-
                 tempMyCourseTimes[timeIndex + 2][0].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex + 2][2].push({name: result[i].name});
 
-            } else if (result[i].sessions == "Tue-Thu"){
+            } else if (result[i].sessions == "Tue-Thu") {
                 tempMyCourseTimes[timeIndex][1].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex][3].push({name: result[i].name});
-                //courses last 50 minutes so extend the course to the next time slots
+
+                // courses last 80 minutes so extend the course to the next 2 time slots
                 tempMyCourseTimes[timeIndex + 1][1].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex + 1][3].push({name: result[i].name});
-
                 tempMyCourseTimes[timeIndex + 2][1].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex + 2][3].push({name: result[i].name});
             }
-            
         }
 
         // replace state

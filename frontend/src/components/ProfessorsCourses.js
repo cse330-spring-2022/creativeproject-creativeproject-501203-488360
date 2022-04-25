@@ -78,7 +78,7 @@ class ProfessorsCourses extends Component {
                 <td>{item.code}</td>
                 <td>{item.number}</td>
                 <td>{item.name}</td>
-                <td>{item.sessions}</td>
+                <td>{item.sessions.replace("-", " & ")}</td>
                 <td>{this.displayTime(item.startTime)}</td>
                 <td>{this.displayTime(item.endTime)}</td>
                 <td><button onClick={this.deleteCourse}>Delete</button></td>
@@ -96,7 +96,7 @@ class ProfessorsCourses extends Component {
                             <th>Days</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th></th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody id="myCourses">{myCourses}</tbody>

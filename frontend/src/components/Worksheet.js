@@ -20,7 +20,7 @@ class Worksheet extends Component {
     getCookieValue(name) {
         let match = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-            ));
+        ));
 
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
@@ -28,6 +28,7 @@ class Worksheet extends Component {
     // fetch the courses the user has already added to their sheet 
     async getMyCourses() {
         let name = this.getCookieValue("user");
+
         // retrieve the courses
         const result = await fetch('http://localhost:5000/api/studentCourse/getCourseByStudent', {
             method: 'POST',
@@ -41,7 +42,6 @@ class Worksheet extends Component {
         }).then((res) => res.json());
 
         // replace state
-
         let tempMyCourses = this.state.myCourses;
         for (let i = 0; i < result.length; i++){
             tempMyCourses.push({code: result[i].code, number: result[i].number, name: result[i].name, sessions: result[i].sessions})
@@ -62,7 +62,7 @@ class Worksheet extends Component {
                 <td>{item.startTime}</td>
                 <td>{item.endTime}</td>
             </tr>
-        ))
+        ));
 
         return (
             <div>

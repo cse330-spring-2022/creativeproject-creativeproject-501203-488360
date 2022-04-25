@@ -30,8 +30,8 @@ function ProfessorAddCourse() {
         let sessions = document.getElementById("courseSessions").value;
         let startTime = parseInt(document.getElementById("courseStartTime").value);
 
-        if (prof && name && name.trim() && code && code.trim() && number && number.trim()
-        && sessions && startTime) {
+        if (prof && code && /^[A-Z]+$/.test(code) && number && /^[0-9]+$/.test(number)
+        && name && name.trim() && sessions && startTime) {
             const result = await fetch('http://localhost:5000/api/course/addCourse', {
                 method: 'POST',
                 headers: {
@@ -51,21 +51,24 @@ function ProfessorAddCourse() {
             if (result.success) {
                 let newCourse = document.createElement("tr");
                 let td1 = document.createElement("td");
-                td1.innerHTML = name;
+                td1.innerHTML = code;
 
                 let td2 = document.createElement("td");
-                td2.innerHTML = code;
+                td2.innerHTML = number;
 
                 let td3 = document.createElement("td");
-                td3.innerHTML = number;
+                td3.innerHTML = name;
 
                 let td4 = document.createElement("td");
-                td4.innerHTML = sessions;
+                td4.innerHTML = sessions.replace("-", " & ");
 
                 let td5 = document.createElement("td");
-                td5.innerHTML = startTime;
+                td5.innerHTML = displayTime(startTime);
 
                 let td6 = document.createElement("td");
+                td6.innerHTML = displayTime(result.object.endTime);
+
+                let td7 = document.createElement("td");
                 let delButton = document.createElement("button");
                 delButton.innerHTML = "Delete";
 
@@ -98,25 +101,26 @@ function ProfessorAddCourse() {
                     row.remove();
                 });
 
-                td6.appendChild(delButton);
+                td7.appendChild(delButton);
                 newCourse.appendChild(td1);
                 newCourse.appendChild(td2);
                 newCourse.appendChild(td3);
                 newCourse.appendChild(td4);
                 newCourse.appendChild(td5);
                 newCourse.appendChild(td6);
+                newCourse.appendChild(td7);
 
                 // newCourse.innerHTML = name;
                 document.getElementById('myCourses').appendChild(newCourse);
                 
-                document.getElementById("courseName").value = "";
                 document.getElementById("courseCode").value = "";
                 document.getElementById("courseNumber").value = "";
+                document.getElementById("courseName").value = "";
                 document.getElementById("courseSessions").value = "";
                 document.getElementById("courseStartTime").value = "";
             } else { alert(result.info); }
         } else {
-            alert("At least one field above is empty. Please retry.");
+            alert("At least one field above is empty or invalid. Please retry.");
         }
     }
 
