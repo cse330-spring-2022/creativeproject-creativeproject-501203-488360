@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
-// import PropTypes from 'prop-types';
 
-function ProfessorAddCourse(props) {
+function ProfessorAddCourse() {
     const navigate = useNavigate();
     const allPossibleStartTimes = [480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780, 810, 840, 870, 900, 930, 960, 990, 1020, 1050, 1080, 1110];
     console.log(document.cookie);
@@ -96,7 +94,7 @@ function ProfessorAddCourse(props) {
                     console.log(result);
 
                     // delete the course from the DOM
-                    let row = e.target.parentElement.parentElement
+                    let row = e.target.parentElement.parentElement;
                     row.remove();
                 });
 
@@ -118,25 +116,25 @@ function ProfessorAddCourse(props) {
                 document.getElementById("courseStartTime").value = "";
             } else { alert(result.info); }
         } else {
-            alert("At least one of the required fields are empty. Please retry");
+            alert("At least one field above is empty. Please retry.");
         }
     }
 
     var timeOptions = allPossibleStartTimes.map((item, i) => (
         <option value={item} key={i}>{displayTime(allPossibleStartTimes[i])}</option>
-    ))
+    ));
 
     return (
         <div>
             <h3>Create A Course</h3>
             <div>
-                <label htmlFor="courseName">Course Name: </label><input id="courseName" name="courseName"></input>
-            </div>
-            <div>
                 <label htmlFor="courseCode">Course Code: </label><input id="courseCode" name="courseCode"></input>
             </div>
             <div>
                 <label htmlFor="courseNumber">Course Number: </label><input id="courseNumber" name="courseNumber"></input>
+            </div>
+            <div>
+                <label htmlFor="courseName">Course Name: </label><input id="courseName" name="courseName"></input>
             </div>
             <div>
                 <label htmlFor="sessions">Course Sessions (Days): </label>

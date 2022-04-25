@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import ProfessorAddCourse from '../components/ProfessorAddCourse';
 import ProfessorsCourses from '../components/ProfessorsCourses';
 
-function ProfessorDashboard(){
+function ProfessorDashboard() {
     const navigate = useNavigate();
     console.log(document.cookie);
 
@@ -21,23 +21,28 @@ function ProfessorDashboard(){
         if (role == "") { navigate("/"); }
     });
 
-    function handleLogout(){
+    function handleLogout() {
         // https://reactrouter.com/docs/en/v6/api#navigate
         document.cookie = "user="
         document.cookie = "role="
         navigate('/');
     }
 
-    return(
-    <>
-    <h1>Professor Dashboard</h1>
+    function goToCourseListings() {
+        navigate('/courselistings');
+    }
 
-    {/* https://reactjs.org/docs/faq-functions.html */}
-    <button onClick={handleLogout}>Logout</button>
+    return (
+        <>
+        <h2>Professor Dashboard</h2>
 
-    <ProfessorAddCourse />
-    <ProfessorsCourses />
-    </>
+        {/* https://reactjs.org/docs/faq-functions.html */}
+        <button onClick={handleLogout}>Logout</button>
+
+        <ProfessorAddCourse />
+        <ProfessorsCourses />
+        <button onClick={goToCourseListings}>Go to Course Listings</button>
+        </>
     );
 }
 

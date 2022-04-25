@@ -122,12 +122,6 @@ router.post('/getCourse', async (req, res) => {
     res.json(courses);
 });
 
-router.post('/getCourseByStud', async (req, res) => {
-    // const { student } = req.body;
-    // const courses = await Course.find({student});
-    // res.json(courses);
-})
-
 // get list of courses add by current (logged-in) professor
 router.post('/getCourseByProf', async (req, res) => {
     const { professor } = req.body;

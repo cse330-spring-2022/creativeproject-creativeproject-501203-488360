@@ -27,6 +27,15 @@ GitHub Username: cpatrick321
 
 <br>
 
+**Pre-registered professor users**
+Professors
+* good (password: 12345)
+* prof (password: )
+Students
+* 
+
+<br>
+
 **References**
 https://piyush-eon.medium.com/user-authentication-in-mern-stack-application-cbca694c7063
 https://github.com/piyush-eon/MERN-auth-tutorial/blob/master/.gitignore

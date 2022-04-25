@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 class CourseSearchArea extends Component {
-
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             allCourses: []
@@ -11,7 +10,7 @@ class CourseSearchArea extends Component {
         this.getAllCourses = this.getAllCourses.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getAllCourses();
     }
 
@@ -22,7 +21,7 @@ class CourseSearchArea extends Component {
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
 
-    async getAllCourses(){
+    async getAllCourses() {
         //fetch courses
         const result = await fetch('http://localhost:5000/api/course/getCourse', {
             method: 'POST',
@@ -51,8 +50,7 @@ class CourseSearchArea extends Component {
                     {displayCourses}
                 </select> 
                 <button>Add This Course</button>
-            </div>
-            
+            </div>   
         );
     }
 }

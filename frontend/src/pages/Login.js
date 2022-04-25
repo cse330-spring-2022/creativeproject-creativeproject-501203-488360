@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
-// import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-function Login(props) {
+function Login() {
     const navigate = useNavigate();
     console.log(document.cookie);
 
@@ -19,8 +18,8 @@ function Login(props) {
     useEffect(() => {
         let role = getCookieValue("role");
         if (role != "") {
-            if (role == "prof") { navigate("/professordashboard") }
-            else if (role == "stud") { navigate("/studentdashboard") }
+            if (role == "prof") { navigate("/professordashboard"); }
+            else if (role == "stud") { navigate("/studentdashboard"); }
         }
     });
 
