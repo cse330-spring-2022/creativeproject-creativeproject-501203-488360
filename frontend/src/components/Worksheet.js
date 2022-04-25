@@ -69,7 +69,7 @@ class Worksheet extends Component {
 
         return (
             <div>
-                My Courses
+                <h3>My Courses</h3>
                 <table>
                     <thead>
                         <tr>
