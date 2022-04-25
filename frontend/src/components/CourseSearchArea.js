@@ -102,6 +102,7 @@ class CourseSearchArea extends Component {
 
         console.log("RESULT OF ADDING THE COURSE");
         console.log(result);
+        document.getElementById("selectedCourse").value = "";
     }
 
     render() {
