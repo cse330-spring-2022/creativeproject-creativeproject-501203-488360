@@ -56,18 +56,18 @@ class Schedule extends Component {
 
             //add to schedule based on day of the week
             if (result[i].sessions == "Mon-Wed"){
-                tempMyCourseTimes[timeIndex][0].push({name: result[0].name});
-                tempMyCourseTimes[timeIndex][2].push({name: result[0].name});
+                tempMyCourseTimes[timeIndex][0].push({name: result[i].name});
+                tempMyCourseTimes[timeIndex][2].push({name: result[i].name});
                 //courses last 50 minutes so extend the course to the next time slot
-                tempMyCourseTimes[timeIndex + 1][0].push({name: result[0].name});
-                tempMyCourseTimes[timeIndex + 1][2].push({name: result[0].name});
+                tempMyCourseTimes[timeIndex + 1][0].push({name: result[i].name});
+                tempMyCourseTimes[timeIndex + 1][2].push({name: result[i].name});
 
             }else if (result[i].sessions == "Tue-Thu"){
-                tempMyCourseTimes[timeIndex][1].push({name: result[0].name});
-                tempMyCourseTimes[timeIndex][3].push({name: result[0].name});
+                tempMyCourseTimes[timeIndex][1].push({name: result[i].name});
+                tempMyCourseTimes[timeIndex][3].push({name: result[i].name});
                 //courses last 50 minutes so extend the course to the next time slot
-                tempMyCourseTimes[timeIndex + 1][1].push({name: result[0].name});
-                tempMyCourseTimes[timeIndex + 1][3].push({name: result[0].name});
+                tempMyCourseTimes[timeIndex + 1][1].push({name: result[i].name});
+                tempMyCourseTimes[timeIndex + 1][3].push({name: result[i].name});
 
             }
             
