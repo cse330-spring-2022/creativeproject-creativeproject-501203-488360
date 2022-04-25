@@ -62,13 +62,18 @@ class Schedule extends Component {
                 tempMyCourseTimes[timeIndex + 1][0].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex + 1][2].push({name: result[i].name});
 
-            }else if (result[i].sessions == "Tue-Thu"){
+                tempMyCourseTimes[timeIndex + 2][0].push({name: result[i].name});
+                tempMyCourseTimes[timeIndex + 2][2].push({name: result[i].name});
+
+            } else if (result[i].sessions == "Tue-Thu"){
                 tempMyCourseTimes[timeIndex][1].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex][3].push({name: result[i].name});
-                //courses last 50 minutes so extend the course to the next time slot
+                //courses last 50 minutes so extend the course to the next time slots
                 tempMyCourseTimes[timeIndex + 1][1].push({name: result[i].name});
                 tempMyCourseTimes[timeIndex + 1][3].push({name: result[i].name});
 
+                tempMyCourseTimes[timeIndex + 2][1].push({name: result[i].name});
+                tempMyCourseTimes[timeIndex + 2][3].push({name: result[i].name});
             }
             
         }

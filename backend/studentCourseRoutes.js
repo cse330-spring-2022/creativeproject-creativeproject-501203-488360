@@ -45,8 +45,6 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         return;
     }
 
-    let 
-
     const addStudentCourse = await StudentCourse.create({
         student: stud,
         code: code,

@@ -82,7 +82,7 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
         // number: number,
         // sessions: sessions,
         // startTime: startTime
-        courseName: name
+        name: name
     });
     if (!deleteFromStud) {
         res.json({
@@ -99,7 +99,7 @@ router.post('/deleteCourse', asyncHandler(async (req, res) => {
         // number: number,
         // sessions: sessions,
         // startTime: startTime
-        courseName: name
+        name: name
     });
     
     if (deleteCourse) {
