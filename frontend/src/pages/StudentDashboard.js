@@ -30,10 +30,19 @@ class StudentDashboard extends Component {
     }
 
     componentDidMount(){
+        let role = this.getCookieValue("role");
+        if (role == ""){
+            this.setState({
+                currentPath: ""
+            }, () => {
+                document.getElementById("navigation").click();
+                this.setState({
+                    currentPath: "studentdashboard"
+                })
+            })
+        }
         this.getMyCourses();
         this.getAllCourses();
-        let role = this.getCookieValue("role");
-        // if (role == "") { navigate("/"); }
         this.setState({user: this.getCookieValue("user")});
     }
 
