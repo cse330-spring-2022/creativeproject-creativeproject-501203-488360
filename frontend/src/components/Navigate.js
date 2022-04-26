@@ -16,7 +16,7 @@ function StudentDashboard(props) {
 
     return (
         <>
-        <button onClick={goToCourseListings}>Go to Course Listings</button>
+        <button id="navigation" onClick={goToCourseListings}>Go to Course Listings</button>
         </>
     );
 }

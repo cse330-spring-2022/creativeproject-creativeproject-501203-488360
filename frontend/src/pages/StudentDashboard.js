@@ -15,7 +15,8 @@ class StudentDashboard extends Component {
             myCourses: [], // an array of objects with course info
             myCourseTimes:[ [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []], [[], [], [], [], []]], //each array is a time slot, each time slot contains an array of days of the week
             allPossibleTimes: [480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780, 810, 840, 870, 900, 930, 960, 990, 1020, 1050, 1080, 1110, 1140, 1170],
-            allCourses: []
+            allCourses: [],
+            currentPath: "courselistings"
         }
         this.getCookieValue = this.getCookieValue.bind(this);
         this.LoggedInAs = this.LoggedInAs.bind(this);
@@ -46,6 +47,14 @@ class StudentDashboard extends Component {
         document.cookie = "user="
         document.cookie = "role="
         // navigate('/');
+        this.setState({
+            currentPath: ""
+        }, () => {
+            document.getElementById("navigation").click();
+            this.setState({
+                currentPath: "studentdashboard"
+            })
+        })
     }
 
     // https://javascript.info/cookie
@@ -476,7 +485,7 @@ class StudentDashboard extends Component {
 
                 {/* Schedule END */}
 
-                <Navigate path="courselistings"/>
+                <Navigate path={this.state.currentPath}/>
             </>
         );
     }
