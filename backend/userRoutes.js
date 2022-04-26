@@ -52,7 +52,9 @@ router.post('/login', asyncHandler(async (req, res) => {
         return;
     }
 
+    // https://piyush-eon.medium.com/user-authentication-in-mern-stack-application-cbca694c7063
     const matchPwd = await user.matchPassword(password);
+    
     if (matchPwd) {
         res.json({
             success: true,
