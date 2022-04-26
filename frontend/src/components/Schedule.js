@@ -110,11 +110,6 @@ class Schedule extends Component {
                         <div key={j}>{course.name}</div>
                     ))}
                 </td>
-                <td style={{backgroundColor: this.state.myCourseTimes[i][4].length > 1 ? 'yellow' : 'green'}}>
-                    {this.state.myCourseTimes[i][4].map((course, j) => (
-                        <div key={j}>{course.name}</div>
-                    ))}
-                </td>
             </tr>
         ))
         return (
@@ -126,7 +121,6 @@ class Schedule extends Component {
                         <th>Tuesday</th>
                         <th>Wednesday</th>
                         <th>Thursday</th>
-                        <th>Friday</th>
                     </tr>
                 </thead>
                 <tbody>

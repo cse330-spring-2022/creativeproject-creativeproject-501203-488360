@@ -35,9 +35,10 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
         });
         return;
     }
-
-    const sameCourse = await StudentCourse.findOne({ stud: stud, code: code, number: number });
+    console.log(stud + " " + code + " " + number);
+    const sameCourse = await StudentCourse.findOne({ student: stud, code: code, number: number });
     if (sameCourse) {
+        console.log(sameCourse);
         res.json({
             success: false,
             info: "Course already registered"
@@ -71,16 +72,18 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
 
 // student delete course sessions
 router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
-    const { stud, code, number, sessions, startTime } = req.body;
+    const { stud, name, code, number, sessions, startTime } = req.body;
 
-    const deleteStudentCourse = await StudentCourse.deleteOne({
-        student: stud,
-        code: code,
-        number: number,
-        sessions: sessions,
-        startTime: startTime
+    const deleteStudentCourse = await StudentCourse.deleteMany({
+        // student: stud,
+        // code: code,
+        // number: number,
+        // sessions: sessions,
+        // startTime: startTime
+        name: name
     });
     if (deleteStudentCourse) {
+        console.log("trying to remove " + name);
         res.json({
             success: true,
             object: deleteStudentCourse
