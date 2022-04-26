@@ -52,7 +52,8 @@ class ProfessorsCourses extends Component {
         }
 
         // delete the course from the database
-        let name = e.target.parentElement.parentElement.firstChild.innerHTML;
+        // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/item
+        let name = e.target.parentElement.parentElement.children.item(2).innerHTML;
         console.log(name);
         const result = await fetch('http://localhost:5000/api/course/deleteCourse', {
             method: 'POST',

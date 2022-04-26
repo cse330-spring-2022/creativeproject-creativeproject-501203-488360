@@ -1,14 +1,9 @@
 import React from 'react';
-import Schedule from '../components/Schedule';
-import Worksheet from '../components/Worksheet';
-import CourseSearchArea from '../components/CourseSearchArea';
 import Navigate from '../components/Navigate';
-import { useNavigate } from "react-router-dom";
-import { useEffect } from 'react';
 import { Component } from 'react';
 
 class StudentDashboard extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             user: "",
@@ -26,12 +21,11 @@ class StudentDashboard extends Component {
         this.getAllCourses = this.getAllCourses.bind(this);
         this.addThisCourse = this.addThisCourse.bind(this);
         this.courseInfo = this.courseInfo.bind(this);
-
     }
 
-    componentDidMount(){
+    componentDidMount() {
         let role = this.getCookieValue("role");
-        if (role == ""){
+        if (role == "") {
             this.setState({
                 currentPath: ""
             }, () => {
@@ -51,7 +45,7 @@ class StudentDashboard extends Component {
         return this.getCookieValue("user");
     }
 
-    handleLogout(){
+    handleLogout() {
         // https://reactrouter.com/docs/en/v6/api#navigate
         document.cookie = "user="
         document.cookie = "role="
@@ -63,7 +57,7 @@ class StudentDashboard extends Component {
             this.setState({
                 currentPath: "studentdashboard"
             })
-        })
+        });
     }
 
     // https://javascript.info/cookie
@@ -75,11 +69,15 @@ class StudentDashboard extends Component {
         return match = match ? decodeURIComponent(match[1]) : undefined;
     }
 
-
     displayTime(minute) {
         let hh = parseInt(minute/60).toString().padStart(2, '0');
         let mm = (minute%60).toString().padStart(2, '0');
         return hh + ":" + mm;
+    }
+
+    parseTime(timeString) {
+        let hhmm = timeString.split(":");
+        return parseInt(hhmm[0]) * 60 + parseInt(hhmm[1]);
     }
 
     async getMyCourses() {
@@ -97,9 +95,7 @@ class StudentDashboard extends Component {
             })
         }).then((res) => res.json());
 
-
-        //ADD EVERTHING TO SCHEDULE
-
+        // ADD EVERTHING TO SCHEDULE
         // add each course to myCourses
         console.log("MY COURSES ARE");
         console.log(result);
@@ -139,29 +135,24 @@ class StudentDashboard extends Component {
         }, () => {
             console.log("MY COURSE STATE IS ");
             console.log(this.state.myCourseTimes);
-        })
+        });
 
-
-
-        //ADD EVERYTHING TO WORKSHEET
-
+        // ADD EVERYTHING TO WORKSHEET
         // replace state
         let tempMyCourses = this.state.myCourses;
-        for (let i = 0; i < result.length; i++){
+        for (let i = 0; i < result.length; i++) {
             tempMyCourses.push({code: result[i].code, number: result[i].number, name: result[i].name, prof: result[i].prof, sessions: result[i].sessions, startTime: result[i].startTime, endTime: result[i].endTime})
         }
         this.setState({
             myCourses: tempMyCourses
-        }, () => {})
-
+        }, () => {});
     }
 
-
-
-    async removeCourse(e){
+    async removeCourse(e) {
         let courseName = e.target.parentElement.parentElement.children.item(2).innerHTML;
         console.log("TRYING TO REMOVE COURSE: " + courseName);
-        //remove from database
+
+        // remove from database
         const result = await fetch('http://localhost:5000/api/studentCourse/deleteStudentCourse', {
             method: 'POST',
             headers: {
@@ -175,15 +166,14 @@ class StudentDashboard extends Component {
         
         console.log(result);
 
-        //remove from schedule
-
+        // remove from schedule
         let tempMyCourseTimes = this.state.myCourseTimes;
-        let startTime = parseInt(e.target.parentElement.parentElement.children.item(5).innerHTML);
+        let startTime = this.parseTime(e.target.parentElement.parentElement.children.item(5).innerHTML);
         let sessions = e.target.parentElement.parentElement.children.item(4).innerHTML;
 
         let timeIndex = (startTime - 480) / 30;
-        console.log("sessions"+sessions);
-        if (sessions == "Mon-Wed"){
+        console.log("sessions", sessions);
+        if (sessions == "Mon/Wed") {
             let array1 = tempMyCourseTimes[timeIndex][0];
             var removeIndex = array1.map(item => item.name).indexOf(courseName);
             array1.splice(removeIndex, 1);
@@ -207,8 +197,7 @@ class StudentDashboard extends Component {
             let array6 = tempMyCourseTimes[timeIndex + 2][2];
             var removeIndex = array6.map(item => item.name).indexOf(courseName);
             array6.splice(removeIndex, 1);
-
-        }else if (sessions == "Tue-Thu"){
+        } else if (sessions == "Tue/Thu") {
             let array1 = tempMyCourseTimes[timeIndex][1];
             var removeIndex = array1.map(item => item.name).indexOf(courseName);
             array1.splice(removeIndex, 1);
@@ -236,20 +225,20 @@ class StudentDashboard extends Component {
         
         this.setState({
             myCourseTimes: tempMyCourseTimes
-        })
+        }, () => {
+            console.log("MY COURSE STATE IS ");
+            console.log(this.state.myCourseTimes);
+        });
 
-        //remove from worksheet
+        // remove from worksheet
         e.target.parentElement.parentElement.remove();
-
     }
-
 
     displayTime(minute) {
         let hh = parseInt(minute/60).toString().padStart(2, '0');
         let mm = (minute%60).toString().padStart(2, '0');
         return hh + ":" + mm;
     }
-
 
     async getAllCourses() {
         // fetch courses
@@ -267,7 +256,6 @@ class StudentDashboard extends Component {
             allCourses: result
         }, () => console.log(this.state.allCourses));
     }
-
 
     courseInfo() {
         // https://stackoverflow.com/questions/14976495/get-selected-option-text-with-javascript
@@ -290,7 +278,7 @@ class StudentDashboard extends Component {
         alert("No course selected or course not found.");
     }
 
-    async addThisCourse(){
+    async addThisCourse() {
         let myName = this.getCookieValue("user");
         let courseName = document.getElementById("selectedCourse").value;
 
@@ -328,11 +316,13 @@ class StudentDashboard extends Component {
         console.log(result);
         document.getElementById("selectedCourse").value = "";
 
+        if (!result.success) {
+            alert(result.info);
+            return;
+        }
 
-        //update state of schedule board
-
+        // UPDATE STATE OF SCHEDULE BOARD
         let tempMyCourseTimes = this.state.myCourseTimes;
-
         let timeIndex = (retrievedCourse[0].startTime - 480) / 30;
 
         // add to schedule based on day of the week
@@ -363,50 +353,43 @@ class StudentDashboard extends Component {
         }, () => {
             console.log("MY COURSE STATE IS ");
             console.log(this.state.myCourseTimes);
-        })
+        });
 
         // add to worksheet
         let tempMyCourses = this.state.myCourses;
         tempMyCourses.push({code: retrievedCourse[0].code, number: retrievedCourse[0].number, name: retrievedCourse[0].name, prof: retrievedCourse[0].prof, sessions: retrievedCourse[0].sessions, startTime: retrievedCourse[0].startTime, endTime: retrievedCourse[0].endTime})
         this.setState({
             myCourses: tempMyCourses
-        }, () => {})
-
+        }, () => {});
     }
 
-
-
-
     render() {
-
-        // this populated the schedule according to the myCourseTimes state variable
-
-        var myScheduleTimes = this.state.allPossibleTimes.map((item, i) =>(
+        // this populates the schedule according to the myCourseTimes state variable
+        var myScheduleTimes = this.state.allPossibleTimes.map((item, i) => (
             <tr key={i} id={i}>
                 <td>{this.displayTime(item)}</td>
-                <td style={{backgroundColor: this.state.myCourseTimes[i][0].length > 1 ? 'yellow' : 'green'}}>
+                <td style={{backgroundColor: this.state.myCourseTimes[i][0].length > 1 ? 'yellow' : 'aquamarine'}}>
                     {this.state.myCourseTimes[i][0].map((course, j) => (
                         <div key={j}>{course.name}</div>
                     ))}
                 </td>
-                <td style={{backgroundColor: this.state.myCourseTimes[i][1].length > 1 ? 'yellow' : 'green'}}>
+                <td style={{backgroundColor: this.state.myCourseTimes[i][1].length > 1 ? 'yellow' : 'aquamarine'}}>
                     {this.state.myCourseTimes[i][1].map((course, j) => (
                         <div key={j}>{course.name}</div>
                     ))}
                 </td>
-                <td style={{backgroundColor: this.state.myCourseTimes[i][2].length > 1 ? 'yellow' : 'green'}}>
+                <td style={{backgroundColor: this.state.myCourseTimes[i][2].length > 1 ? 'yellow' : 'aquamarine'}}>
                     {this.state.myCourseTimes[i][2].map((course, j) => (
                         <div key={j}>{course.name}</div>
                     ))}
                 </td>
-                <td style={{backgroundColor: this.state.myCourseTimes[i][3].length > 1 ? 'yellow' : 'green'}}>
+                <td style={{backgroundColor: this.state.myCourseTimes[i][3].length > 1 ? 'yellow' : 'aquamarine'}}>
                     {this.state.myCourseTimes[i][3].map((course, j) => (
                         <div key={j}>{course.name}</div>
                     ))}
                 </td>
             </tr>
         ));
-
 
         // these classes will populate the worksheet area
         var classes = this.state.myCourses.map((item, i) => (
@@ -415,15 +398,14 @@ class StudentDashboard extends Component {
                 <td>{item.number}</td>
                 <td>{item.name}</td>
                 <td>{item.prof}</td>
-                <td>{item.sessions}</td>
-                <td>{item.startTime}</td>
-                <td>{item.endTime}</td>
-                <td><button onClick={this.removeCourse} >Remove Course</button></td>
+                <td>{item.sessions.replace("-", "/")}</td>
+                <td>{this.displayTime(item.startTime)}</td>
+                <td>{this.displayTime(item.endTime)}</td>
+                <td><button onClick={this.removeCourse}>Remove Course</button></td>
             </tr>
         ));
 
-
-        //These are the courses displayed in the search dropdown
+        // These are the courses displayed in the search dropdown
         var displayCourses = this.state.allCourses.map((item, i) => (
             <option key={i} value={item.name}>
                 {item.code}&nbsp;{item.number}&nbsp;
@@ -431,16 +413,14 @@ class StudentDashboard extends Component {
             </option>
         ));
 
-
         return (
             <>
                 <h2>Student Dashboard</h2>
                 <p>Logged in as: <b>{this.state.user}</b> <button onClick={this.handleLogout}>Logout</button></p>
 
                 {/* COURSE SELECTION AREA BEGIN */}
-
                 <div>
-                    Select Courses:&nbsp;
+                    Select a Course:&nbsp;
                     <select id="selectedCourse" name="selectedCourse">
                         <option value="None"></option>
                         {displayCourses}
@@ -448,10 +428,8 @@ class StudentDashboard extends Component {
                     &nbsp;
                     <button onClick={this.courseInfo}>Display Course Info</button>
                     <button onClick={this.addThisCourse}>Add This Course</button>
-                </div>   
-
+                </div>
                 {/* COURSE SELECTION AREA END */}
-
 
                 {/* WORKSHEET BEGIN */}
                 <div>
@@ -466,17 +444,15 @@ class StudentDashboard extends Component {
                                 <th>Course Days</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
-                                <th></th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody id="mycourses">{classes}</tbody>
                     </table>
                 </div>
-
                 {/* WORKSHEET END */}
 
                 {/* Schedule BEGIN */}
-
                 <table>
                     <thead>
                         <tr>
@@ -491,7 +467,6 @@ class StudentDashboard extends Component {
                         {myScheduleTimes}
                     </tbody>
                 </table>
-
                 {/* Schedule END */}
 
                 <Navigate path={this.state.currentPath}/>
