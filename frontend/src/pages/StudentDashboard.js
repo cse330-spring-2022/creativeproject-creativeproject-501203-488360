@@ -160,6 +160,7 @@ class StudentDashboard extends Component {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
+                stud: this.state.user,
                 name: courseName
             })
         }).then((res) => res.json());

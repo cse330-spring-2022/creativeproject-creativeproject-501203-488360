@@ -74,7 +74,7 @@ router.post('/addStudentCourse', asyncHandler(async (req, res) => {
 router.post('/deleteStudentCourse', asyncHandler(async (req, res) => {
     const { stud, name, code, number, sessions, startTime } = req.body;
 
-    const deleteStudentCourse = await StudentCourse.deleteMany({
+    const deleteStudentCourse = await StudentCourse.deleteOne({
         student: stud,
         // code: code,
         // number: number,
