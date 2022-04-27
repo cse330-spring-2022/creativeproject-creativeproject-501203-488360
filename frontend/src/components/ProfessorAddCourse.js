@@ -120,7 +120,7 @@ function ProfessorAddCourse() {
                 document.getElementById("courseStartTime").value = "";
             } else { alert(result.info); }
         } else {
-            alert("At least one field above is empty or invalid. Please retry.");
+            alert("At least one field above is empty or invalid. Please retry.\nBe sure that the course code is in all caps and the course number contains only numbers.");
         }
     }
 
